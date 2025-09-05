@@ -1,9 +1,16 @@
 package org.example;
 
-import org.example.combinatorics.CombWithRepetitions;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println(CombWithRepetitions.getAccommodationsCount(2, 5));
+        try {
+            TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
+            telegramBotsApi.registerBot(new Bot("8401384567:AAFIZUNtEdlNyMpSh9i2bu_PKAGTVGNsEr8"));
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 }
