@@ -1,4 +1,4 @@
-package org.example;
+package org.example.bot;
 
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -9,15 +9,19 @@ import java.util.List;
 
 public class Content {
     private InlineKeyboardMarkup markup;
+    private Chapter chapter;
+    private SubChapter subChapter;
+    private String message;
 
     public InlineKeyboardMarkup getMarkup() {
         return markup;
     }
 
-    public String getText() {
-        return "";
+    public String getMessage() {
+        return message;
     }
 
+    //TODO: Create new message and new markup
     public void newMessage(CallbackQuery callbackQuery) {
 
     }
