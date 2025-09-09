@@ -13,60 +13,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bot extends TelegramLongPollingBot {
+    private Content content = new Content();
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage()) {
             String message = update.getMessage().getText();
-            sendMsg(update.getMessage().getChatId().toString(), message + message);
+            content.newMessage(message);
+            sendMsg(update.getMessage().getChatId().toString(), content.getText(), content.getMarkup());
         } else if (update.hasCallbackQuery()){
             CallbackQuery cq = update.getCallbackQuery();
-            sendMsg(cq.getMessage().getChatId().toString(), cq.getData());
-            answerCallbackQuery(cq.getId(), "gdhgooygueogh");
+            content.newMessage(cq);
+            sendMsg(cq.getMessage().getChatId().toString(), content.getText(), content.getMarkup());
         }
-    }
-
-    private void setInline(InlineKeyboardMarkup markupKeyboard) {
-        List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
-        List<InlineKeyboardButton> buttons1 = new ArrayList<>();
-        InlineKeyboardButton button = new InlineKeyboardButton();
-        button.setText("Кнопка");
-        button.setCallbackData("1");
-        buttons1.add(button);
-        InlineKeyboardButton button2 = new InlineKeyboardButton();
-        button2.setText("Кнопка2");
-        button2.setCallbackData("2");
-        buttons1.add(button2);
-        buttons.add(buttons1);
-
-        markupKeyboard.setKeyboard(buttons);
     }
 
     public Bot(String botToken) {
         super(botToken);
     }
 
-    public synchronized void sendMsg(String chatId, String s) {
+    public synchronized void sendMsg(String chatId, String s, InlineKeyboardMarkup markup) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         sendMessage.setChatId(chatId);
         sendMessage.setText(s);
-        InlineKeyboardMarkup markupKeyboard = new InlineKeyboardMarkup();
-        setInline(markupKeyboard);
-        sendMessage.setReplyMarkup(markupKeyboard);
+        sendMessage.setReplyMarkup(markup);
         try {
             execute(sendMessage);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public synchronized void answerCallbackQuery(String callbackId, String message) {
-        AnswerCallbackQuery answer = new AnswerCallbackQuery();
-        answer.setCallbackQueryId(callbackId);
-        answer.setText(message);
-        answer.setShowAlert(true);
-        try {
-            execute(answer);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
