@@ -26,8 +26,11 @@ public class Content {
 
     }
 
-    public void newMessage(String message) {
-
+    public void newMessage(String prevMessage) {
+        if (chapter == null) {
+            String s = "Привет, я - калькулятор теории вероятностей и я могу тебе помочь решать задачи." +
+                    "Нажми на кнопку, что ты хочешь";
+        }
     }
 
     private void setInline(InlineKeyboardMarkup markupKeyboard) {
