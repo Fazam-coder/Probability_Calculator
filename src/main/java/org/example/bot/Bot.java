@@ -12,13 +12,21 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage()) {
-            String message = update.getMessage().getText();
-            content.newMessage(message);
-            sendMsg(update.getMessage().getChatId().toString(), content.getMessage(), content.getMarkup());
-        } else if (update.hasCallbackQuery()){
-            CallbackQuery cq = update.getCallbackQuery();
-            content.newMessage(cq);
-            sendMsg(cq.getMessage().getChatId().toString(), content.getMessage(), content.getMarkup());
+            try {
+                String message = update.getMessage().getText();
+                content.newMessage(message);
+                sendMsg(update.getMessage().getChatId().toString(), content.getMessage(), content.getMarkup());
+            } catch (IllegalArgumentException e) {
+                sendMsg(update.getMessage().getChatId().toString(), e.getMessage(), null);
+            }
+        } else if (update.hasCallbackQuery()) {
+            try {
+                CallbackQuery cq = update.getCallbackQuery();
+                content.newMessage(cq);
+                sendMsg(cq.getMessage().getChatId().toString(), content.getMessage(), content.getMarkup());
+            } catch (IllegalArgumentException e) {
+                sendMsg(update.getMessage().getChatId().toString(), e.getMessage(), null);
+            }
         }
     }
 
