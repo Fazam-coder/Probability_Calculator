@@ -1,6 +1,6 @@
 package org.example.probability;
 
-import static org.example.combinatorics.CombNoRepetitions.getCombinationsCount;
+import static org.example.combinatorics.CombWithoutRepetitions.getCombinationsCount;
 
 public class UrnModel {
     public static double getProbabilityAllMarked(int n, int m, int k) {

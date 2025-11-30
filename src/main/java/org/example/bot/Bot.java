@@ -8,7 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class Bot extends TelegramLongPollingBot {
-    private Content content = new Content();
+    private ContentBegin content = new ContentBegin();
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage()) {

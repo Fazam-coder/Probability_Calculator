@@ -14,7 +14,7 @@ public class CombWithRepetitions {
     }
 
     public static long getCombinationsCount(int n, int k) {
-        return CombNoRepetitions.getCombinationsCount(n + k - 1, k);
+        return CombWithoutRepetitions.getCombinationsCount(n + k - 1, k);
     }
 
     public static long getAccommodationsCount(int n, int k) {

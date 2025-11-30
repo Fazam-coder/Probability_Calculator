@@ -2,7 +2,7 @@ package org.example.combinatorics;
 
 import static org.example.combinatorics.Factorial.getFactorial;
 
-public class CombNoRepetitions {
+public class CombWithoutRepetitions {
 
     public static long getPermutationsCount(int n) {
         return getFactorial(n);
