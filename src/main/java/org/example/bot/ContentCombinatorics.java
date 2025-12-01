@@ -11,13 +11,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ContentCombinatorics {
+    public static final int MAX_NUMBER_MESSAGE = 4;
     private int numberMessage = 1;
     private SubChapter subChapter;
     private String message;
     private InlineKeyboardMarkup markup;
     private Combinatorics combinatorics;
 
-    public void newMessage(String prevMessage) {
+    public synchronized void newMessage(String prevMessage) {
         if (numberMessage == 4) {
             int[] values;
             try {
@@ -43,6 +44,7 @@ public class ContentCombinatorics {
                     }
                 }
                 createFourthMessage(result);
+                numberMessage++;
             } else {
                 throw new IllegalArgumentException("Некорректные входные данные");
             }
@@ -51,7 +53,7 @@ public class ContentCombinatorics {
         }
     }
 
-    public void newMessage(CallbackQuery callbackQuery) {
+    public synchronized void newMessage(CallbackQuery callbackQuery) {
         switch (numberMessage) {
             case 1: createFirstMessage(); break;
             case 2:
@@ -95,9 +97,14 @@ public class ContentCombinatorics {
         return markup;
     }
 
+    public int getNumberMessage() {
+        return numberMessage;
+    }
+
     public void clear() {
         numberMessage = 1;
         markup = null;
+        subChapter = null;
     }
 
     private void createFirstMessage() {
@@ -209,7 +216,7 @@ public class ContentCombinatorics {
     }
 
     private void createFourthMessage(long result) {
-        message = "Ответ: " + result;
+        message = "Ответ: " + result + "\nЧтобы еще что-то решить, напишите любой текст";
         markup = null;
     }
 }

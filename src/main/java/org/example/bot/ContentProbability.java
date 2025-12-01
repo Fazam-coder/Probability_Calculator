@@ -10,12 +10,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ContentProbability {
+    public static final int MAX_NUMBER_MESSAGE = 3;
     private int numberMessage = 1;
     private SubChapter subChapter;
     private String message;
     private InlineKeyboardMarkup markup;
 
-    public void newMessage(String prevMessage) {
+    public synchronized void newMessage(String prevMessage) {
         if (numberMessage == 3) {
             int[] values;
             try {
@@ -32,6 +33,7 @@ public class ContentProbability {
                     case R_MARKED -> result = UrnModel.getProbabilityRMarked(values[0], values[1], values[2], values[3]);
                 }
                 createThirdMessage(result);
+                numberMessage++;
             } else {
                 throw new IllegalArgumentException("Некорректные входные данные");
             }
@@ -40,7 +42,7 @@ public class ContentProbability {
         }
     }
 
-    public void newMessage(CallbackQuery callbackQuery) {
+    public synchronized void newMessage(CallbackQuery callbackQuery) {
         switch (numberMessage) {
             case 1: createFirstMessage();
             case 2:
@@ -63,9 +65,14 @@ public class ContentProbability {
         return markup;
     }
 
+    public int getNumberMessage() {
+        return numberMessage;
+    }
+
     public void clear() {
         numberMessage = 1;
         markup = null;
+        subChapter = null;
     }
 
     private void createFirstMessage() {
@@ -122,7 +129,7 @@ public class ContentProbability {
     }
 
     private void createThirdMessage(double result) {
-        message = "Ответ: " + result;
+        message = "Ответ: " + result + "\nЧтобы еще что-то решить, напишите любой текст";
         markup = null;
     }
 }

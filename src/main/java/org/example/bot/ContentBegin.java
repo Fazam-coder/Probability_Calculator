@@ -35,6 +35,7 @@ public class ContentBegin {
             markup = contentProbability.getMarkup();
             chapter = Chapter.PROBABILITY;
         }
+        clear();
     }
 
     public void newMessage(String prevMessage) {
@@ -48,13 +49,22 @@ public class ContentBegin {
                 message = contentProbability.getMessage();
                 markup = contentProbability.getMarkup();
             } case null -> {
-                message = "Привет, я - калькулятор теории вероятностей и я могу тебе помочь решать задачи. " +
+                message = "Привет, я - калькулятор теории вероятностей и я могу вам помочь решать задачи. " +
                         "Нажмите на кнопку, что вы хотите посчитать";
                 markup = new InlineKeyboardMarkup();
                 setKeyboardWhatCalculate(markup);
-                contentCombinatorics.clear();
-                contentProbability.clear();
             }
+        }
+        clear();
+    }
+
+    public void clear() {
+        if (contentCombinatorics.getNumberMessage() > ContentCombinatorics.MAX_NUMBER_MESSAGE ||
+        contentProbability.getNumberMessage() > ContentProbability.MAX_NUMBER_MESSAGE) {
+            contentCombinatorics.clear();
+            contentProbability.clear();
+            markup = null;
+            chapter = null;
         }
     }
 
